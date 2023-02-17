@@ -14,6 +14,7 @@ class Interface extends StatefulWidget {
 
 class _InterfaceState extends State<Interface> {
   int pageIndex = 0;
+  PageController interfaceController = PageController();
 
   // This widget is the root of your application.
   @override
@@ -22,6 +23,7 @@ class _InterfaceState extends State<Interface> {
       body: Stack(
         children: [
           PageView(
+            controller: interfaceController,
             onPageChanged: (value) => setState(() {
               pageIndex = value;
             }),
@@ -49,14 +51,14 @@ class _InterfaceState extends State<Interface> {
                   ),],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(pageIndex == 0 ? CupertinoIcons.house_fill : CupertinoIcons.house, size: 40),
-                      Icon(pageIndex == 1 ? CupertinoIcons.hexagon_fill : CupertinoIcons.hexagon, size: 40),
-                      Icon(pageIndex == 2 ? CupertinoIcons.cube_box_fill : CupertinoIcons.cube_box, size: 40),
-                      Icon(pageIndex == 3 ? CupertinoIcons.heart_fill : CupertinoIcons.heart, size: 40),
+                      IconButton(icon: Icon(pageIndex == 0 ? CupertinoIcons.house_fill : CupertinoIcons.house), iconSize: 40, onPressed: () => interfaceController.jumpToPage(0),),
+                      IconButton(icon: Icon(pageIndex == 1 ? CupertinoIcons.hexagon_fill : CupertinoIcons.hexagon), iconSize: 40, onPressed: () => interfaceController.jumpToPage(1),),
+                      IconButton(icon: Icon(pageIndex == 2 ? CupertinoIcons.cube_box_fill : CupertinoIcons.cube_box), iconSize: 40, onPressed: () => interfaceController.jumpToPage(2),),
+                      IconButton(icon: Icon(pageIndex == 3 ? CupertinoIcons.heart_fill : CupertinoIcons.heart), iconSize: 40, onPressed: () => interfaceController.jumpToPage(3),),
                     ],
                   ),
                 )
