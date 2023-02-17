@@ -27,8 +27,10 @@ class _InterfaceState extends State<Interface> {
             onPageChanged: (value) => setState(() {
               pageIndex = value;
             }),
-            children: const [
-              HomePage(),
+            children: [
+              HomePage(
+                cardTapCallback: interfaceController.jumpToPage,
+              ),
               ChorePage(),
               WishlistPage(),
               LeaderboardPage(),
