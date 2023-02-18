@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => cardTapCallback(2),
+            onTap: () => cardTapCallback(3),
             child: Container(
               margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
               width: double.infinity,
@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => cardTapCallback(3),
+            onTap: () => cardTapCallback(2),
             child: Container(
               margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
               width: double.infinity,
