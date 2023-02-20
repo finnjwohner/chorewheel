@@ -93,8 +93,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing Username';
                                 }
-                                else if (value.length > 30 || value.length < 6) {
-                                  return 'Username must be 6 to 30 characters long';
+                                else if (value.length > 30 || value.length < 3) {
+                                  return 'Username must be 3 to 30 characters long';
                                 }
                                 return null;
                               },
