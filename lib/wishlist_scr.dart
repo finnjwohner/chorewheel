@@ -8,7 +8,7 @@ class WishlistPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        children: [
+        children: const [
           Text("Wishlist Page")
         ],
       ),

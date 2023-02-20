@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'homePage.dart';
-import 'chorePage.dart';
-import 'wishlistPage.dart';
-import 'leaderboardPage.dart';
+import 'home_scr.dart';
+import 'chore_scr.dart';
+import 'wishlist_scr.dart';
+import 'leaderboard_scr.dart';
 
 class Interface extends StatefulWidget {
   const Interface({super.key});
@@ -31,9 +31,9 @@ class _InterfaceState extends State<Interface> {
               HomePage(
                 cardTapCallback: interfaceController.jumpToPage,
               ),
-              ChorePage(),
-              WishlistPage(),
-              LeaderboardPage(),
+              const ChorePage(),
+              const WishlistPage(),
+              const LeaderboardPage(),
             ],
           ),
           Align(

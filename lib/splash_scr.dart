@@ -1,25 +1,24 @@
+import 'package:chorewheel/create_account_scr.dart';
 import 'package:flutter/material.dart';
+import 'functions/requests.dart';
 import 'package:http/http.dart' as http;
-import 'Functions/Requests.dart';
 import 'interface.dart';
 
-class CreateAccountScreen extends StatefulWidget {
-  const CreateAccountScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _CreateAccountScreenState extends State<CreateAccountScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   final usernameCon = TextEditingController();
-  final emailCon = TextEditingController();
   final passwordCon = TextEditingController();
-  final conPasswordCon = TextEditingController();
-  final createFormKey = GlobalKey<FormState>();
+  final loginKey = GlobalKey<FormState>();
 
   String errorMessage = "";
 
-  void createAccount(String username, String email, String password) async {
+  void login(String username, String password) async {
     showDialog(
       context: context,
       builder: (context) {
@@ -28,21 +27,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
 
     NavigatorState navState = Navigator.of(context);
-    http.Response res = await Request.register(username, password, email);
+    http.Response res = await Request.login(username, password);
+    navState.pop();
     if(res.statusCode == 200) {
-      res = await Request.login(username, password);
-      if(res.statusCode == 200) {
-        navState.pop();
-        navState.pop();
-        navState.push(MaterialPageRoute(builder: (context) => const Interface()));
-        return;
-      }
+      navState.pop();
+      navState.push(MaterialPageRoute(builder: (context) => const Interface()));
+    }
+    else {
+      setState(() {
+        errorMessage = res.body;
+      });
     }
 
-    navState.pop();
-    setState(() {
-      errorMessage = res.body;
-    });
+    
   }
 
   @override
@@ -56,7 +53,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               margin: const EdgeInsets.only(top: 100),
               child: Text(
                 "Chorewheel",
-                style: Theme.of(context).textTheme.displayMedium
+                style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
             Positioned(
@@ -65,18 +62,17 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 child: SizedBox(
                       width: 300,
                       child: Form(
-                        key: createFormKey,
+                        key: loginKey,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                                margin: const EdgeInsets.only(bottom: 30),
-                                child: Text(errorMessage),
-                              ),
-                            const Text("Create Account"),
+                              margin: const EdgeInsets.only(bottom: 30),
+                              child: Text(errorMessage),
+                            ),
+                            const Text("Login"),
                             TextFormField(
-                              controller: usernameCon,
-                              validator: (value) {
+                              validator: (value)  {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing Username';
                                 }
@@ -85,69 +81,35 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 }
                                 return null;
                               },
+                              controller: usernameCon,
                               decoration: const InputDecoration(
                                 hintText: "Username",
                               ),
                             ),
                             TextFormField(
-                              controller: emailCon,
-                              validator: (value) {
+                              validator: (value)  {
                                 if (value == null || value.isEmpty) {
-                                  return 'Missing email';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                hintText: "Email",
-                              ),
-                            ),
-                            TextFormField(
-                              controller: passwordCon,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Missing password';
+                                  return 'Missing Password';
                                 }
                                 else if (value.length < 8) {
                                   return 'Password must be 8 or more characters long';
                                 }
-                                else if (value != conPasswordCon.text) {
-                                  return 'Passwords do not match';
-                                }
                                 return null;
                               },
+                              controller: passwordCon,
                               decoration: const InputDecoration(
                                 hintText: "Password",
                               ),
                             ),
-                            TextFormField(
-                              controller: conPasswordCon,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Missing password confirmation';
-                                }
-                                else if (passwordCon.text.isEmpty) {
-                                  return null;
-                                }
-                                else if (passwordCon.text.length < 8) {
-                                  return null;
-                                }
-                                else if (value != conPasswordCon.text) {
-                                  return 'Passwords do not match';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                hintText: "Confirm Password",
-                              ),
-                            ),
+                            
                             Container(
                               margin: const EdgeInsets.only(top: 20),
                               width: double.infinity,
                               height: 50,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  if (createFormKey.currentState!.validate()) {
-                                    createAccount(usernameCon.text, emailCon.text, passwordCon.text);
+                                  if (loginKey.currentState!.validate()) {
+                                    login(usernameCon.text, passwordCon.text);
                                   }
                                 },
                                 style: ButtonStyle(
@@ -158,7 +120,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                     ),
                                   ),
                                 ),
-                                child: Text("Create Account",
+                                child: Text("Login",
                                   style: Theme.of(context).textTheme.labelLarge,
                                 ),
                               ),
@@ -168,7 +130,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               width: double.infinity,
                               height: 50,
                               child: ElevatedButton(
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateAccountScreen())),
                                 style: ButtonStyle(
                                   backgroundColor: const MaterialStatePropertyAll<Color>(Color.fromRGBO(235, 235, 235, 1)),
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -177,7 +139,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                     ),
                                   ),
                                 ),
-                                child: Text("Login",
+                                child: Text("Create Account",
                                   style: Theme.of(context).textTheme.labelLarge,
                                 ),
                               ),
