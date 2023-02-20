@@ -7,7 +7,7 @@ class LeaderboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
+      child: ListView(
         children: const [
           Text("Leaderboard Page")
         ],

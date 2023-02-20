@@ -7,7 +7,7 @@ class WishlistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
+      child: ListView(
         children: const [
           Text("Wishlist Page")
         ],
