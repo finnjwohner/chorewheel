@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final passwordCon = TextEditingController();
   final loginKey = GlobalKey<FormState>();
 
-  String loginErrorMessage = "";
+  String errorMessage = "";
 
   void login(String username, String password) async {
     showDialog(
@@ -26,15 +26,16 @@ class _SplashScreenState extends State<SplashScreen> {
       },
     );
 
+    NavigatorState navState = Navigator.of(context);
     http.Response res = await Request.login(username, password);
-    Navigator.of(context).pop();
+    navState.pop();
     if(res.statusCode == 200) {
-      Navigator.of(context).pop();
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Interface()));
+      navState.pop();
+      navState.push(MaterialPageRoute(builder: (context) => const Interface()));
     }
     else {
       setState(() {
-        loginErrorMessage = res.body;
+        errorMessage = res.body;
       });
     }
 
@@ -48,12 +49,12 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Stack(
           children: [
             Container(
+              alignment: Alignment.topCenter,
+              margin: const EdgeInsets.only(top: 100),
               child: Text(
                 "Chorewheel",
-                style: Theme.of(context).textTheme.displayMedium
+                style: Theme.of(context).textTheme.displayMedium,
               ),
-              alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(top: 100),
             ),
             Positioned(
               child: Align(
@@ -66,10 +67,10 @@ class _SplashScreenState extends State<SplashScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(bottom: 30),
-                              child: Text(loginErrorMessage),
+                              margin: const EdgeInsets.only(bottom: 30),
+                              child: Text(errorMessage),
                             ),
-                            Text("Login"),
+                            const Text("Login"),
                             TextFormField(
                               validator: (value)  {
                                 if (value == null || value.isEmpty) {
@@ -81,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 return null;
                               },
                               controller: usernameCon,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "Username",
                               ),
                             ),
@@ -90,53 +91,56 @@ class _SplashScreenState extends State<SplashScreen> {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing Password';
                                 }
+                                else if (value.length < 8) {
+                                  return 'Password must be 8 or more characters long';
+                                }
                                 return null;
                               },
                               controller: passwordCon,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "Password",
                               ),
                             ),
                             
                             Container(
-                              margin: EdgeInsets.only(top: 20),
+                              margin: const EdgeInsets.only(top: 20),
                               width: double.infinity,
                               height: 50,
                               child: ElevatedButton(
-                                child: Text("Login",
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),
                                 onPressed: () async {
                                   if (loginKey.currentState!.validate()) {
                                     login(usernameCon.text, passwordCon.text);
                                   }
                                 },
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.yellowAccent),
+                                  backgroundColor: const MaterialStatePropertyAll<Color>(Colors.yellowAccent),
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50.0),
                                     ),
                                   ),
+                                ),
+                                child: Text("Login",
+                                  style: Theme.of(context).textTheme.labelLarge,
                                 ),
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 20),
+                              margin: const EdgeInsets.only(top: 20),
                               width: double.infinity,
                               height: 50,
                               child: ElevatedButton(
-                                child: Text("Create Account",
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),
                                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateAccountScreen())),
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll<Color>(Color.fromRGBO(235, 235, 235, 1)),
+                                  backgroundColor: const MaterialStatePropertyAll<Color>(Color.fromRGBO(235, 235, 235, 1)),
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50.0),
                                     ),
                                   ),
+                                ),
+                                child: Text("Create Account",
+                                  style: Theme.of(context).textTheme.labelLarge,
                                 ),
                               ),
                             ),

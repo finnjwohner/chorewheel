@@ -1,7 +1,5 @@
-import 'package:chorewheel/createAccountScr.dart';
 import 'package:flutter/material.dart';
 import 'splashScr.dart';
-import 'interface.dart';
 
 void main() {
   runApp(const MyApp());
