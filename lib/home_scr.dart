@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               width: double.infinity,
-              height: 180,
+              //height: 180,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.yellow,
@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +35,12 @@ class HomePage extends StatelessWidget {
                         Text("Chores", style: Theme.of(context).textTheme.headline4),
                         const Icon(Icons.arrow_forward_ios),
                       ],
-                    )
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text("Your next chore"),
+                    ),
+                    Text("Mop the bathroom floor", style: Theme.of(context).textTheme.titleLarge)
                   ],
                 ),
               )
@@ -45,7 +51,7 @@ class HomePage extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
               width: double.infinity,
-              height: 180,
+              //height: 180,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.yellow,
@@ -53,6 +59,7 @@ class HomePage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +68,39 @@ class HomePage extends StatelessWidget {
                         Text("Leaderboard", style: Theme.of(context).textTheme.headline4),
                         const Icon(Icons.arrow_forward_ios),
                       ],
-                    )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: const NetworkImage('https://images.unsplash.com/photo-1631885628726-d60689c330db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1970&q=80'),
+                            backgroundColor: Colors.brown.shade800,
+                            //child: const Text('JP'),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text("You are in 4th place"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: const NetworkImage('https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'),
+                            backgroundColor: Colors.brown.shade800,
+                            //child: const Text('JP'),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text("Jacob is third, beating you by just 2 points"),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               )
@@ -72,7 +111,6 @@ class HomePage extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
               width: double.infinity,
-              height: 180,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.yellow,
@@ -80,6 +118,7 @@ class HomePage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +127,12 @@ class HomePage extends StatelessWidget {
                         Text("Wishlist", style: Theme.of(context).textTheme.headline4),
                         const Icon(Icons.arrow_forward_ios),
                       ],
-                    )
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text("Thomas wants Loo Roll"),
+                    ),
+                    Text("\"PLEASE I NEED IT\"", style: Theme.of(context).textTheme.titleLarge)
                   ],
                 ),
               )

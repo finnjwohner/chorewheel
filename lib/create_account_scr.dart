@@ -19,20 +19,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   String errorMessage = "";
   bool loading = false;
-  bool isEnabled = true;
-
-  @override void initState() {
-    super.initState();
-    isEnabled = true;
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    isEnabled = false;
-  }
 
   void createAccount(String username, String email, String password) async {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+
     setState(() {
       loading = true;
     });
@@ -60,6 +53,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [
@@ -88,7 +82,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             const Text("Create Account"),
                             TextFormField(
                               controller: usernameCon,
-                              enabled: isEnabled,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing Username';
@@ -104,7 +97,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                             TextFormField(
                               controller: emailCon,
-                              enabled: isEnabled,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing email';
@@ -117,7 +109,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                             TextFormField(
                               controller: passwordCon,
-                              enabled: isEnabled,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing password';
@@ -136,7 +127,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                             TextFormField(
                               controller: conPasswordCon,
-                              enabled: isEnabled,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing password confirmation';

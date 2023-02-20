@@ -18,20 +18,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   String errorMessage = "";
   bool loading = false;
-  bool isEnabled = true;
-
-  @override void initState() {
-    super.initState();
-    isEnabled = true;
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    isEnabled = false;
-  }
 
   void login(String username, String password) async {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+
     setState(() {
       loading = true;
     });
@@ -53,13 +46,12 @@ class _SplashScreenState extends State<SplashScreen> {
         errorMessage = res.body;
       });
     }
-
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [
@@ -97,7 +89,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                 return null;
                               },
                               controller: usernameCon,
-                              enabled: isEnabled,
                               decoration: const InputDecoration(
                                 hintText: "Username",
                               ),
@@ -113,7 +104,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                 return null;
                               },
                               controller: passwordCon,
-                              enabled: isEnabled,
                               decoration: const InputDecoration(
                                 hintText: "Password",
                               ),
