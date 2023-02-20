@@ -3,6 +3,7 @@ import 'splash_scr.dart';
 import 'functions/storage.dart';
 import 'functions/requests.dart';
 import 'interface.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,28 @@ class MyApp extends StatelessWidget {
 
     String? sessionToken = await Storage.read('sessionToken');
     if (sessionToken != null) {
-      return await Request.checkSessionToken(sessionToken);
+
+      http.Response res = await Request.checkSessionToken(sessionToken);
+
+      if (res.statusCode == 200) {
+        return true;
+      }
+      
+      if(res.body == 'false') {
+        return false;
+      }
+
+      String? username = await Storage.read('username');
+      String? password = await Storage.read('password');
+
+      if (username == null || password == null) {
+        return false;
+      }
+
+      res = await Request.login(username, password);
+      if (res.statusCode == 200) {
+        await Storage.write('sessionToken', res.body);
+      }
     }
 
     return false;

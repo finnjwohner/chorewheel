@@ -37,8 +37,8 @@ class Request {
     );
   }
 
-  static Future<bool> checkSessionToken(String sessionToken) async {
-    http.Response res = await http.post(
+  static Future<http.Response> checkSessionToken(String sessionToken) async {
+    return await http.post(
       Uri.parse('https://chorewheel.azurewebsites.net/api/CheckSessionToken?code=ehHvCe0laJDGZstucoe9MWd5QuxHZonyi7WJ1EKnkhIlAzFu9ogqyw=='), // Login API URI
       headers: <String, String> {
         'Content-Type': 'application/json',
@@ -50,11 +50,5 @@ class Request {
         }
       ),
     );
-
-    if (res.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }
