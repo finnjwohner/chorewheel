@@ -28,27 +28,21 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
 
     NavigatorState navState = Navigator.of(context);
-    http.Response regRes = await Request.register(username, password, email);
-    navState.pop();
-    if(regRes.statusCode == 200) {
-      http.Response loginRes = await Request.login(username, password);
-      if(loginRes.statusCode == 200) {
+    http.Response res = await Request.register(username, password, email);
+    if(res.statusCode == 200) {
+      res = await Request.login(username, password);
+      if(res.statusCode == 200) {
+        navState.pop();
         navState.pop();
         navState.push(MaterialPageRoute(builder: (context) => const Interface()));
+        return;
       }
-      else {
-      setState(() {
-        print("LOGIN ERROR ${loginRes.body}");
-        errorMessage = loginRes.body;
-      });
     }
-    }
-    else {
-      setState(() {
-        print("REG ERROR ${regRes.body}");
-        errorMessage = regRes.body;
-      });
-    }
+
+    navState.pop();
+    setState(() {
+      errorMessage = res.body;
+    });
   }
 
   @override
