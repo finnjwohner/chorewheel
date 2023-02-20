@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'functions/requests.dart';
 import 'package:http/http.dart' as http;
 import 'interface.dart';
+import 'functions/storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -36,7 +37,10 @@ class _SplashScreenState extends State<SplashScreen> {
       setState(() {
         loading = false;
       });
-
+      await Storage.write('username', username);
+      await Storage.write('password', password);
+      await Storage.write('sessionToken', res.body);
+      
       navState.pop();
       navState.push(MaterialPageRoute(builder: (context) => const Interface()));
     }

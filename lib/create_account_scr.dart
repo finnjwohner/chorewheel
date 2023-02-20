@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'functions/requests.dart';
 import 'interface.dart';
+import 'functions/storage.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -38,6 +39,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         setState(() {
           loading = false;
         });
+
+        await Storage.write('username', username);
+        await Storage.write('password', password);
+        await Storage.write('sessionToken', res.body);
+
         navState.pop();
         navState.push(MaterialPageRoute(builder: (context) => const Interface()));
         return;
