@@ -19,6 +19,18 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   String errorMessage = "";
   bool loading = false;
+  bool isEnabled = true;
+
+  @override void initState() {
+    super.initState();
+    isEnabled = true;
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    isEnabled = false;
+  }
 
   void createAccount(String username, String email, String password) async {
     setState(() {
@@ -76,6 +88,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             const Text("Create Account"),
                             TextFormField(
                               controller: usernameCon,
+                              enabled: isEnabled,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing Username';
@@ -91,6 +104,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                             TextFormField(
                               controller: emailCon,
+                              enabled: isEnabled,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing email';
@@ -103,6 +117,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                             TextFormField(
                               controller: passwordCon,
+                              enabled: isEnabled,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing password';
@@ -121,6 +136,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                             TextFormField(
                               controller: conPasswordCon,
+                              enabled: isEnabled,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Missing password confirmation';

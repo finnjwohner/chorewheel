@@ -18,6 +18,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
   String errorMessage = "";
   bool loading = false;
+  bool isEnabled = true;
+
+  @override void initState() {
+    super.initState();
+    isEnabled = true;
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    isEnabled = false;
+  }
 
   void login(String username, String password) async {
     setState(() {
@@ -85,6 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 return null;
                               },
                               controller: usernameCon,
+                              enabled: isEnabled,
                               decoration: const InputDecoration(
                                 hintText: "Username",
                               ),
@@ -100,6 +113,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 return null;
                               },
                               controller: passwordCon,
+                              enabled: isEnabled,
                               decoration: const InputDecoration(
                                 hintText: "Password",
                               ),
