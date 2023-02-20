@@ -18,29 +18,29 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final createFormKey = GlobalKey<FormState>();
 
   String errorMessage = "";
+  bool loading = false;
 
   void createAccount(String username, String email, String password) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
+    setState(() {
+      loading = true;
+    });
 
     NavigatorState navState = Navigator.of(context);
     http.Response res = await Request.register(username, password, email);
     if(res.statusCode == 200) {
       res = await Request.login(username, password);
       if(res.statusCode == 200) {
-        navState.pop();
+        setState(() {
+          loading = false;
+        });
         navState.pop();
         navState.push(MaterialPageRoute(builder: (context) => const Interface()));
         return;
       }
     }
 
-    navState.pop();
     setState(() {
+      loading = false;
       errorMessage = res.body;
     });
   }
@@ -158,9 +158,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                     ),
                                   ),
                                 ),
-                                child: Text("Create Account",
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),
+                                child: loading ? const CircularProgressIndicator(color: Colors.black,) : Text("Create Account", style: Theme.of(context).textTheme.labelLarge,),
                               ),
                             ),
                             Container(

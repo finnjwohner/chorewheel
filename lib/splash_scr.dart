@@ -17,24 +17,27 @@ class _SplashScreenState extends State<SplashScreen> {
   final loginKey = GlobalKey<FormState>();
 
   String errorMessage = "";
+  bool loading = false;
 
   void login(String username, String password) async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
+    setState(() {
+      loading = true;
+    });
 
     NavigatorState navState = Navigator.of(context);
     http.Response res = await Request.login(username, password);
-    navState.pop();
+    
     if(res.statusCode == 200) {
+      setState(() {
+        loading = false;
+      });
+
       navState.pop();
       navState.push(MaterialPageRoute(builder: (context) => const Interface()));
     }
     else {
       setState(() {
+        loading = false;
         errorMessage = res.body;
       });
     }
@@ -120,9 +123,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     ),
                                   ),
                                 ),
-                                child: Text("Login",
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),
+                                child: loading ? const CircularProgressIndicator(color: Colors.black,) : Text("Login", style: Theme.of(context).textTheme.labelLarge,),
                               ),
                             ),
                             Container(
