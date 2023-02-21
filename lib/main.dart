@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
       res = await Request.login(username, password);
       if (res.statusCode == 200) {
         await Storage.write('sessionToken', res.body);
+        return true;
       }
     }
 
