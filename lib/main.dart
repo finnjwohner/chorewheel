@@ -4,6 +4,7 @@ import 'functions/storage.dart';
 import 'functions/requests.dart';
 import 'interface.dart';
 import 'package:http/http.dart' as http;
+import 'intro_scr.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,9 +52,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Chorewheel',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        primarySwatch: Colors.yellow,
       ),
-      home: FutureBuilder<bool>(
+      home: const IntroScr(),/*FutureBuilder<bool>(
         future: autoLogin(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if(snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
             return Expanded(child: Container(color: Colors.white));
           }
         } 
-      )
+      )*/
     );
   }
 }
